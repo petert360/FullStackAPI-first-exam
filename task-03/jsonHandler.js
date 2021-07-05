@@ -2,11 +2,15 @@
  * 1. A fájlok kezeléséhez az fs modul promise alapú verzióját használd.
  */
 
+const fsp = require('fs').promises;
+const { join } = require('path');
+
+
 /**
  * 2. Állítsd be az azonos mappában található .json fájl elérési útját a path 
  * modul join metódusának segítségével.
  */
- const jsonPath = '';
+const jsonPath = join(__dirname, 'db', 'products.json');
 
  /**
   * 3. A jsonPath útvonalon található fájl tartalmát beolvassa és értelmezi, 
@@ -14,7 +18,8 @@
   * @returns objektumok tömbje
   */
  const getList = async () => {
-     //
+    const fileContent = await fsp.readFile(jsonPath, 'utf8');
+    return JSON.parse(fileContent);
  };
 
 /**
@@ -23,8 +28,11 @@
  * @param {Array} list objektumok tömbje
  * @returns 
  */
+
+// Létrehozunk egy külön aszinkron függvényt a kiírásra
 const saveList = async (list = []) => {
-    //
+    await fsp.writeFile(jsonPath, JSON.stringify(list, null, 2), 'utf8');
+    return true;
 };
 
 /**
@@ -35,7 +43,16 @@ const saveList = async (list = []) => {
  * @returns a frissített objektum ha sikerült a frissítés, egyébként false
  */
 const update = async (entity = {}) => {
-    //
+    // hiba esetén false válasz
+    if (!entity.id) return false;
+    // beolvassuk a product listát
+    const productList = await getList();
+    // megkeressük az id alapján a tömb indexét, és a lista adott indexű eleme legyen egyelő a kapott entitással.
+    const idx = productList.findIndex(item => item.id === entity.id);
+    productList[idx] = { ...productList[idx], ...entity };
+    // saveList segítségével kiírjuk az új listát
+    await saveList(productList);
+    return productList[idx];
 };
 
 module.exports = {
