@@ -2,13 +2,13 @@
  * 1. A fájlok kezeléséhez az fs modul promise alapú verzióját használd.
  */
 const fsp = require('fs').promises;
-const { join } = require('path');
- 
 
 /**
  * 2. Állítsd be az azonos mappában található .json fájl elérési útját a path 
  * modul join metódusának segítségével.
  */
+// a path modul metöltése, hogy a join metódust használni tudjuk
+const { join } = require('path');
 const jsonPath = join(__dirname, 'countries.json');
 
 /**
@@ -17,6 +17,7 @@ const jsonPath = join(__dirname, 'countries.json');
  * @returns objektumok tömbje
  */
 const getList = async () => {
+    // file betöltése aszinkron módon a readfile segítségével és visszaadjuk JSON formában
     const fileContent = await fsp.readFile(jsonPath, 'utf8');
     return JSON.parse(fileContent);
 };
@@ -27,6 +28,7 @@ const getList = async () => {
  * 
  * @returns a termékek objektumai egy tömbben
  */
+// getAll() létrehozása, amely a getList segítségével olvassa be az adatokat
 const getAll = async () => {
     return await getList();
 };

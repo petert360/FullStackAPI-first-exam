@@ -12,4 +12,3 @@ const { get } = require('./reader');
 ( async () => {
     console.log( await get(9));
 })();
-

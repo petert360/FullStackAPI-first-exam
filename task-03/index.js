@@ -5,7 +5,6 @@
 
 const { update } = require('./jsonHandler');
 
-
 /**
  * 2. Ebben a névtelen aszinkron függvényben futtatsd az update metódust. 
  * Ha készen van a json kezelő modulod, akkor csupán élesítened kell az alábbi 
