@@ -50,7 +50,7 @@ const update = (list = [], entity = {}) => {
  * @returns true ha sikeres volt a törlés, egyébként false
  */
 const remove = (list = [], id = 0) => {
-    // ellenőrzés    
+    // ellenőrzés, ha hibát talál (üres tömb, nincs id), false eredményt ad
     if (list.length < 1 || !id) return false;
     // megkeressük az id alapján a tömb indexét.
     const idx = list.findIndex(item => item === id);
