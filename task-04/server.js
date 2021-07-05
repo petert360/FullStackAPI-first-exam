@@ -16,6 +16,7 @@ const port = 8080;
  */
  const httpServer = http.createServer(async (req, res) => {
     const list = await getAll();
+    // a header beállítása, hogy a böngésző JSON formátumot kap vissza
     res.setHeader('Content-Type', 'application/json');
     // a listát formázott módon adja vissza
     res.end(JSON.stringify(list, null, 2));
